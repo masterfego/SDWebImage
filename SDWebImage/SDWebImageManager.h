@@ -154,7 +154,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
 
 @property (weak, nonatomic) id <SDWebImageManagerDelegate> delegate;
 
-@property (strong, nonatomic, readonly) SDImageCache *imageCache;
+@property (strong, nonatomic) SDImageCache *imageCache;
 @property (strong, nonatomic, readonly) SDWebImageDownloader *imageDownloader;
 
 /**
