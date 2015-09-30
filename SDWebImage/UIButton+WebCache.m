@@ -74,12 +74,7 @@ static char imageURLStorageKey;
         dispatch_main_sync_safe(^{
             __strong UIButton *sself = wself;
             if (!sself) return;
-            if (image && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
-            {
-                completedBlock(image, error, cacheType, url);
-                return;
-            }
-            else if (image) {
+            if (image) {
                 [sself setImage:image forState:state];
             }
             if (completedBlock && finished) {
@@ -122,12 +117,7 @@ static char imageURLStorageKey;
             dispatch_main_sync_safe(^{
                 __strong UIButton *sself = wself;
                 if (!sself) return;
-                if (image && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
-                {
-                    completedBlock(image, error, cacheType, url);
-                    return;
-                }
-                else if (image) {
+                if (image) {
                     [sself setBackgroundImage:image forState:state];
                 }
                 if (completedBlock && finished) {
