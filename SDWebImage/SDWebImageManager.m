@@ -133,7 +133,7 @@
         isFailedUrl = [self.failedURLs containsObject:url];
     }
 
-    if (!url || (!(options & SDWebImageRetryFailed) && isFailedUrl)) {
+    if (url.absoluteString.length == 0 || (!(options & SDWebImageRetryFailed) && isFailedUrl)) {
         dispatch_main_sync_safe(^{
             NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorFileDoesNotExist userInfo:nil];
             completedBlock(nil, error, SDImageCacheTypeNone, YES, url);
@@ -192,9 +192,13 @@
                         }
                     });
 
-                    BOOL shouldBeFailedURLAlliOSVersion = (error.code != NSURLErrorNotConnectedToInternet && error.code != NSURLErrorCancelled && error.code != NSURLErrorTimedOut);
-                    BOOL shouldBeFailedURLiOS7 = (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1 && error.code != NSURLErrorInternationalRoamingOff && error.code != NSURLErrorCallIsActive && error.code != NSURLErrorDataNotAllowed);
-                    if (shouldBeFailedURLAlliOSVersion || shouldBeFailedURLiOS7) {
+                    if (   error.code != NSURLErrorNotConnectedToInternet
+                        && error.code != NSURLErrorCancelled
+                        && error.code != NSURLErrorTimedOut
+                        && error.code != NSURLErrorInternationalRoamingOff
+                        && error.code != NSURLErrorDataNotAllowed
+                        && error.code != NSURLErrorCannotFindHost
+                        && error.code != NSURLErrorCannotConnectToHost) {
                         @synchronized (self.failedURLs) {
                             [self.failedURLs addObject:url];
                         }
